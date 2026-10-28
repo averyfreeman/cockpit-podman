@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2019 Red Hat, Inc.
  */
-import React from 'react';
+
 
 import { Alert, AlertActionCloseButton } from "@patternfly/react-core/dist/esm/components/Alert";
 

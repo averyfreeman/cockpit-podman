@@ -5,13 +5,15 @@
     "checkJs": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedSideEffectImports": false,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": [
       "dom",
       "es2021"
     ],
     "paths": {
-        "*": ["./pkg/lib/*"]
+      "*": [
+        "./pkg/lib/*"
+      ]
     },
     "module": "preserve",
     "moduleResolution": "bundler",

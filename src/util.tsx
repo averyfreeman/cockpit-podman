@@ -186,9 +186,14 @@ export const validationDebounce = debounce(500, (validationHandler) => validatio
 
 // Ignore podman-compose containers which like quadlets set PODMAN_SYSTEMD_UNIT.
 // https://github.com/containers/podman-compose/blob/0dcc864fdda280b410ad49ae4fa99740a4770cbb/podman_compose.py#L2263
-// FIXME: yes yes, the container config type should be fully spelled out
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const is_systemd_service = (container_config: { [key: string]: any }) => container_config?.Labels?.PODMAN_SYSTEMD_UNIT && !container_config.Labels.PODMAN_SYSTEMD_UNIT.startsWith('podman-compose@');
+type ContainerConfig = {
+    Labels?: Record<string, string | undefined>;
+};
+
+export const is_systemd_service = (container_config: ContainerConfig | null | undefined) => {
+    const unit = container_config?.Labels?.PODMAN_SYSTEMD_UNIT;
+    return typeof unit === 'string' && !unit.startsWith('podman-compose@');
+};
 
 export const systemctl_spawn = (args: string[], system: boolean = false) => {
     const systemctl_args = [

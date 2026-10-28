@@ -4,7 +4,7 @@
  * Copyright (C) 2022 Red Hat, Inc.
  */
 
-import React from 'react';
+
 
 import { Button } from "@patternfly/react-core/dist/esm/components/Button";
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from "@patternfly/react-core/dist/esm/components/DescriptionList";

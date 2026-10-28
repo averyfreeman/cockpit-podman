@@ -53,6 +53,7 @@ class ContainerTerminal extends React.Component {
         this.setUpBuffer = this.setUpBuffer.bind(this);
 
         this.terminalRef = React.createRef();
+        this.buffer = null;
 
         this.term = new Terminal({
             cols: 80,
@@ -68,7 +69,6 @@ class ContainerTerminal extends React.Component {
             container: props.containerId,
             sessionId: props.containerId,
             channel: null,
-            buffer: null,
             opened: false,
             errorMessage: "",
         };
@@ -123,6 +123,7 @@ class ContainerTerminal extends React.Component {
 
     setUpBuffer(channel) {
         const buffer = channel.buffer();
+        this.buffer = buffer;
 
         // Parse the full HTTP response
         buffer.callback = (data) => {
@@ -172,7 +173,6 @@ class ContainerTerminal extends React.Component {
         }
         channel.send(String.fromCharCode(12)); // Send SIGWINCH to show prompt on attaching
 
-        return buffer;
     }
 
     execAndConnect() {
@@ -191,8 +191,8 @@ class ContainerTerminal extends React.Component {
                               "/start HTTP/1.0\r\n" +
                               "Upgrade: WebSocket\r\nConnection: Upgrade\r\nContent-Length: " + body.length + "\r\n\r\n" + body);
 
-                    const buffer = this.setUpBuffer(channel);
-                    this.setState({ channel, errorMessage: "", buffer, sessionId: r.Id }, () => this.resize(this.props.width));
+                    this.setUpBuffer(channel);
+                    this.setState({ channel, errorMessage: "", sessionId: r.Id }, () => this.resize(this.props.width));
                 })
                 .catch(e => this.setState({ errorMessage: e.message }));
     }
@@ -210,8 +210,8 @@ class ContainerTerminal extends React.Component {
                       "/attach?&stdin=true&stdout=true&stderr=true HTTP/1.0\r\n" +
                       "Upgrade: WebSocket\r\nConnection: Upgrade\r\nContent-Length: 0\r\n\r\n");
 
-        const buffer = this.setUpBuffer(channel);
-        this.setState({ channel, errorMessage: "", buffer });
+        this.setUpBuffer(channel);
+        this.setState({ channel, errorMessage: "" });
         this.resize(this.props.width);
     }
 
@@ -236,8 +236,10 @@ class ContainerTerminal extends React.Component {
     }
 
     disconnectChannel() {
-        if (this.state.buffer)
-            this.state.buffer.callback = null; // eslint-disable-line react/no-direct-mutation-state
+        if (this.buffer) {
+            this.buffer.callback = null;
+            this.buffer = null;
+        }
         if (this.state.channel) {
             this.state.channel.removeEventListener('close', this.onChannelClose);
         }

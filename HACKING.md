@@ -36,22 +36,22 @@ set to upload code changes to `~/.local/share/cockpit/` instead of
 
     $ RSYNC_DEVEL=example.com make watch
 
-## Running eslint
+## Running Oxlint
 
-Cockpit Podman uses [ESLint](https://eslint.org/) to automatically check
-JavaScript code style in `.jsx` and `.js` files.
+Cockpit Podman uses [Oxlint](https://oxc.rs/docs/guide/usage/linter/) to check
+JavaScript and TypeScript code in `.jsx`, `.js`, `.tsx`, and `.ts` files.
 
-eslint is executed as part of `test/static-code`, aka. `make codecheck`.
+Oxlint is executed as part of `test/static-code`, aka. `make codecheck`.
 
-For developer convenience, the ESLint can be started explicitly by:
+For developer convenience, Oxlint can be started explicitly by:
 
-    $ npm run eslint
+    $ npm run lint
 
-Violations of some rules can be fixed automatically by:
+Some violations can be fixed automatically by:
 
-    $ npm run eslint:fix
+    $ npm run lint:fix
 
-Rules configuration can be found in the `.eslintrc.json` file.
+Rules configuration can be found in the `.oxlintrc.json` file.
 
 ## Running stylelint
 

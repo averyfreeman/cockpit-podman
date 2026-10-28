@@ -14,9 +14,9 @@ updates:
       - "node_modules"
       - "bot"
     groups:
-      eslint:
+      oxlint:
         patterns:
-          - "eslint*"
+          - "oxlint"
       esbuild:
         patterns:
           - "esbuild*"
@@ -42,17 +42,9 @@ updates:
       - dependency-name: "@patternfly/*"
         update-types: ["version-update:semver-major"]
 
-      # PF6 doesn't support React 19 yet.
-      # https://github.com/patternfly/pf-roadmap/issues/201
-      - dependency-name: "*react*"
-        update-types: ["version-update:semver-major"]
 
-      # The plugins we use didn't work with anything after 8 at some point
-      - dependency-name: "eslint"
-        update-types: ["version-update:semver-major"]
 
-      # @typescript-eslint is incompatible with TS 7
-      # https://github.com/typescript-eslint/typescript-eslint/issues/12518
+      # Keep this migration on TypeScript major 6 until the codebase is ready for 7.
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
 

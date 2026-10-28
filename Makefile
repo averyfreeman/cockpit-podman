@@ -59,8 +59,8 @@ COCKPIT_REPO_FILES = \
 	tools/build-debian-copyright \
 	$(NULL)
 
-COCKPIT_REPO_URL = https://github.com/cockpit-project/cockpit.git
-COCKPIT_REPO_COMMIT = 35a30182a213ea1490563b7ec36aa8b9f201d51e # 369 + 76 commits
+COCKPIT_REPO_URL = https://github.com/averyfreeman/cockpit.git
+COCKPIT_REPO_COMMIT = 64ed0b09ff51d7de34d89bcf22549d6e335c4ca1 # includes Oxlint helper and React 19-compatible shared UI types
 
 $(COCKPIT_REPO_FILES): $(COCKPIT_REPO_STAMP)
 COCKPIT_REPO_TREE = '$(strip $(COCKPIT_REPO_COMMIT))^{tree}'
@@ -158,7 +158,8 @@ dist: $(TARFILE)
 # we don't ship most node_modules for license and compactness reasons, only the ones necessary for running tests
 # we ship a pre-built dist/ (so it's not necessary) and ship package-lock.json (so that node_modules/ can be reconstructed if necessary)
 $(TARFILE): export NODE_ENV ?= production
-$(TARFILE): $(DIST_TEST) $(SPEC) packaging/arch/PKGBUILD packaging/debian/changelog packaging/debian/copyright
+$(TARFILE): $(DIST_TEST) $(SPEC) packaging/arch/PKGBUILD packaging/debian/changelog packaging/debian/copyright \
+	$(wildcard packaging/debian/* packaging/debian/source/* packaging/debian/upstream/*)
 	if type appstream-util >/dev/null 2>&1; then appstream-util validate-relax --nonet *.metainfo.xml; fi
 	tar --xz $(TAR_ARGS) -cf $(TARFILE) --transform 's,^,$(RPM_NAME)/,' \
 		--exclude '*.in' --exclude test/reference \

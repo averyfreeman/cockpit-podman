@@ -1019,7 +1019,10 @@ class Containers extends React.Component {
                                              className="container-pod"
                                              isClickable
                                              isSelectable>
-                                                {caption && <CardHeader actions={{ actions, className: "panel-actions" }}>
+                                                {caption && <CardHeader
+                                                    actions={{ actions, className: "panel-actions" }}
+                                                    selectableActions={{ selectableActionAriaLabel: cockpit.format(_("Select pod $0"), caption) }}
+                                                >
                                                     <CardTitle>
                                                         <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                                                             <h3 className='pod-name'>{caption}</h3>

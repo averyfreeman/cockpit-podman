@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: LGPL-2.1-or-later */
-import React from 'react';
+
 
 import { FormSelect, FormSelectOption } from "@patternfly/react-core/dist/esm/components/FormSelect";
 import { SearchInput } from "@patternfly/react-core/dist/esm/components/SearchInput";
